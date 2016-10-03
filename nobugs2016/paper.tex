@@ -56,8 +56,8 @@ have been preserved though many of the technologies used today in the
 ICAT family did not exist then.
 \section{Early history}
 The CLRC Data Portal of 2001 made use of a data model that evolved
-into something that was published in 2004 as the CCLRC Scientific
-Metadata Model: Version 2~\cite{ref:csmd2} and which has subsequently
+into something that was published in 2004 as the CSMD (CCLRC Scientific
+Metadata Model: Version 2~\cite{ref:csmd2}) and which has subsequently
 evolved~\cite{ref:csmd4}. The original catalogue was relational and
 had the idea of wrappers to extract metadata from the data dynamically
 but not to store it. This avoids duplication of data but is
@@ -84,8 +84,13 @@ Work on TopCAT as a GUI to view multiple ICATs started in 2011. Two
 years later, in 2013, work began on the ICAT Job Portal, IJP, a system
 allowing data stored in the IDS and catalogued in ICAT to be submitted
 to compute resources.
+
+The ICAT community now has monthly teleconferences, an annual
+face-to-face meeting and is governed by a steering group which meets
+a couple of times a year.
 \section{Established components}
-The server components all run in a Java EE container such as Glassfish.
+The server components all run in a Java EE container such as Glassfish
+or WildFly.
 \subsection{ICAT Server}
 The ICAT server is a metadata catalogue to support primarily Large
 Facility experimental data, linking all aspects of the research chain
@@ -99,7 +104,7 @@ The primary database is relational. The ICAT server should in
 principle work on any relational database which supports transactions
 and has a JDBC driver available. Best understood are MariaDB/MySQL and
 Oracle. Some of the information held in the relational database is
-also indexed in Apache Lucene which is a fast text search engine.
+also indexed in Apache Lucene~\cite{ref:lucene} which is a fast text search engine.
 This gives the benefit of the relational model for keeping the data
 organised and at the same time allows users to find things when they
 are not sure where to look.
@@ -154,19 +159,20 @@ arrays.
 Authorization is entirely rule based. Though rules can be related to a
 specific row of a table in an ACL style this is not the way they are
 normally expected to be used. The intention is that rules can be
-defined, for example, to say that if you are related to an
-Investigation then you can see all the data related to that
-Investigation. You could also define a rule to say that all Datafiles
-older than some time are public. The authorization system is such that
-if \emph{any} rule allows the user to perform the action then it will
-be allowed. There are no rules forbidding operations. The system is
-efficient because the rules are used in a way that allows the database
-to do most of the computation.
+defined to implement a data policy, for example, to say that if you
+are related to an Investigation then you can see all the data related
+to that Investigation. You could also define a rule to say that all
+Datafiles older than some time are public. The authorization system is
+such that if \emph{any} rule allows the user to perform the action
+then it will be allowed. There are no rules forbidding operations. The
+system is efficient because the rules are used in a way that allows
+the database to do most of the computation.
 
 \subsubsection{Calls}
-There are very few calls and none of them are schema dependent. The
-API is providing a generic approach to accessing a relational database
-which follows a schema with a few special constraints as described
+There are very few calls and, apart from three REST calls for TopCAT
+to utilise the Lucene index, they are schema independent. The API is
+providing a generic approach to accessing a relational database which
+follows a schema with a few special constraints as described
 earlier. Some tables stored in the database are however special and
 can affect subsequent operations. In particular the Rules table which
 controls authorization is populated and queried like any other table
@@ -175,12 +181,6 @@ but controls access to all ICAT operations.
 REST calls support import/export of the contents of the ICAT
 database. These operations like all the others are subject to the
 authorization rules.
-
-The Lucene indexing is accessible through the REST interface. Currently
-three calls are provided to return Investigation, Dataset and Datafile
-Id values. These have been designed to match the needs of TopCAT but
-are not generic as each one only returns Id values for one specific
-table type.
 
 \subsection{IDS Server}
 This component provides an `ICAT friendly' interface to data
@@ -241,7 +241,7 @@ may exist but there should never be an entry in ICAT for which no file
 exists.
 
 \subsubsection{Accessing the service}
-The server exposes a REST interface using the HTTP(S) methods PUT,
+The IDS server exposes a REST interface using the HTTP(S) methods PUT,
 DELETE, POST and GET as appropriate. Detailed documentation for each
 call is generated from the server code and comments in that code.  IDS
 clients are provided in Java and Python.
@@ -292,8 +292,8 @@ authenticators.
 TopCat has already been mentioned as an established component however
 it has recently had an overhaul so major that very few lines of old
 code remain.  A major refactoring effort to replace the
-GWT~\cite{ref:gwt} by AngularJS (version 1) and bootstrap began. This took
-into account a requirements gathering exercise mostly based on
+GWT~\cite{ref:gwt} by AngularJS (version 1) and bootstrap began. This
+took into account a requirements gathering exercise mostly based on
 producing mockups and inviting comments. TopCAT now includes a
 configurable set of data delivery mechanisms in addition to
 http(s). One of these is the smartclient and the others are provided
@@ -342,13 +342,15 @@ data. As a new component this was written from the beginning with a
 Java back end and an AngularJS front end and will soon be released.
 
 \section{Conclusion}
-The CSMD data model has evolved and had proved to be applicable to
-many different facilities. Because The ICAT family components have
-been designed to be loosely coupled and to make use of plugins where
-extensibility is required only around twenty person-years of
-development effort has been invested into something which is meeting
-the needs of many facilities. The use of lucene indexing by the ICAT
-server has greatly improved the perfromance of TopCAT.
+The CSMD data model has evolved and has proved to be applicable to
+many different facilities. The ICAT family components have been
+designed to be loosely coupled and to make use of plugins where
+extensibility is required so that it now meets the needs of a growing
+number of facilities. The project is very much alive with useful
+monthly meetings and a lot of discussion on a Google provided
+forum. We would still welcome yet more collaborators to build new
+components and to take things even further. Take a look at the
+website~\cite{ref:icatproject} and join us.
 
 \section*{References}
 \bibliographystyle{unsrt}
