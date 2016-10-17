@@ -143,17 +143,17 @@ for all recent versions of the ICAT server thanks to a JAX-WS dynamic
 client and allows display, editing and creation of any ICAT entity
 subject to the authorization rules.
 
-Though the SOAP interface is easy to use it is somewhat restricted and
-there is a tendency to bring back to the client side information which
-is not needed because it brings back whole rows from the database. The
-REST interface uses the HTTP(S) methods PUT, DELETE, POST and GET as
-appropriate. The REST interface is much more efficient because queries
-can be written in JPQL to return exactly what is wanted. Detailed
-documentation for each call is generated from the server code.  Small
-client libraries are provided in Java and Python and mainly look after
-error handling.  The Python API is the more convenient to use because
-instead of dealing with JSON strings you pass nested Python dicts and
-arrays.
+Though the SOAP interface is easy to use, it is somewhat restricted
+and there is a tendency to bring back to the client side information
+which is not needed because it brings back whole rows from the
+database. The REST interface uses the HTTP(S) methods PUT, DELETE,
+POST and GET as appropriate. The REST interface is much more efficient
+because queries can be written in JPQL to return exactly what is
+wanted. Detailed documentation for each call is generated from the
+server code.  Small client libraries are provided in Java and Python
+and mainly look after error handling.  The Python API is the more
+convenient to use because instead of dealing with JSON strings you
+pass nested Python dicts and arrays.
 
 \subsubsection{Authorization}
 Authorization is entirely rule based. Though rules can be related to a
@@ -197,24 +197,24 @@ reference these files.
 
 \subsubsection{Two Level Storage}
 The IDS can be configured to use a single level of storage where data
-are all available with low latency (e.g. disk) or it may be
-configured to use two levels of storage known as main and archive. The
-main storage should have low latency and the archive storage might have
+are all available with low latency (e.g. disk) or it may be configured
+to use two levels of storage known as main and archive. The main
+storage should have low latency and the archive storage might have
 higher latency (e.g. tape). If the volume of data makes it not
 practical to hold all data on low latency storage then two level
 storage must be used. All of the calls to the IDS may be used
-irrespective of whether single or two level storage is used however
-the archive and restore calls are ignored for single level storage and
-the prepareData call (which ensures that data is brought back from
+irrespective of whether single or two level storage is used, however
+the archive and restore calls are ignored for single level storage,
+and the prepareData call (which ensures that data is brought back from
 archive to main storage) has no value.
 
 When a file is written to the IDS it is first stored on main
 storage. Later it may be copied to archive storage if a two level
 storage model has been adopted.
 
-The server provides explicit archive and restore calls however
-normally the movement of data between main and archive storage is
-handled automatically. The server configuration includes high and low
+Though the server provides explicit archive and restore calls, the
+movement of data between main and archive storage is normally handled
+automatically. The server configuration includes high and low
 watermark levels for the size of main storage. A background process
 notices if the high watermark is exceeded and requests the archiving
 of sufficient files to bring the main data storage size down to the
@@ -223,11 +223,11 @@ made to access data that is not in main storage.
 
 \subsubsection{Plugin architecture}
 Different facilities have different needs for external file
-structures. To cope with this interfaces have been defined which must
-be implemented by a plugin written for your facility. There are
-interfaces for main storage, archive storage and to define the entry
-names in a zip file when a group of files are downloaded in one call
-to the IDS.
+structures. To cope with this, interfaces have been defined which must
+be implemented by a plugin written specifically for your
+facility. There are interfaces for main storage, archive storage and
+to define the entry names in a zip file when a group of files are
+downloaded in one call to the IDS.
 
 \subsubsection{ICAT Coupling}
 ICAT session ids are passed as an argument to most calls. The server
@@ -303,10 +303,10 @@ by PollCAT both of which are described below.
 The smartclient is a small server packaged as a standalone
 program. The user downloads this and starts the server which listens
 for requests from TopCAT to download some data and queues a list of
-Datafiles to be downloaded it then uses a number of threads to process
-the queue so that it is doing a number of downloads from the IDS in
-parallel to local storage. It is a convenient way to transfer a large
-amount of data to your desktop machine.
+Datafiles to be downloaded. It then uses a number of threads to
+process the queue so that it is doing a number of downloads in
+parallel from the IDS to local storage. It is a convenient way to
+transfer a large amount of data to your desktop machine.
 
 \subsection{PollCAT}
 When PollCAT is asked to perform a download it polls the IDS until
@@ -343,11 +343,12 @@ Java back end and an AngularJS front end and will soon be released.
 
 \section{Conclusion}
 The CSMD data model has evolved and has proved to be applicable to
-many different facilities. The ICAT family components have been
-designed to be loosely coupled and to make use of plugins where
-extensibility is required so that it now meets the needs of a growing
-number of facilities. The project is very much alive with useful
-monthly meetings and a lot of discussion on a Google provided forum.
+many different facilities. The ICAT components have been designed to
+be loosely coupled and to make use of plugins where extensibility is
+required so that they now meet the needs of a growing number of
+facilities. The ICAT project is very much alive with well attended
+monthly virtual meetings and considerable discussion outside the
+meetings in the ICAT forum.
 
 \section*{References}
 \bibliographystyle{unsrt}
